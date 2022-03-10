@@ -1,36 +1,38 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import './App.css';
 
 function App() {
   const [dogImg, getDogImg] = useState({})
   const [dogLinks, getDogLinks] = useState([])
 
-  async function fetchDogImg() {
-    const res = await fetch('https://dog.ceo/api/breeds/image/random')
-    const data = await res.json()
-    getDogImg(data)
-  }
-  async function getMultiple() {
-    const promises = []
-    for(let i = 0; i < 10; i++){
-      promises.push(await fetch('https://dog.ceo/api/breeds/image/random'))
+  useEffect(() => {
+    async function fetchDogImg() {
+      const res = await fetch('https://dog.ceo/api/breeds/image/random')
+      const data = await res.json()
+      getDogImg(data)
     }
-    // create an array of promises to be resolved
-    const links = await Promise.all(
-      promises.map(request => request.json())
-    )
-    // Map through each item, and add a breed prop, swap the - for spaces
-    links.map(i => i.breed = i.message.split('/')[4].replace('-', ' '))
-    console.log(links)
-    getDogLinks(links)
-  }
+    fetchDogImg()
+
+    async function getMultiple() {
+      const promises = []
+      for(let i = 0; i < 10; i++){
+        promises.push(await fetch('https://dog.ceo/api/breeds/image/random'))
+      }
+      // create an array of promises to be resolved
+      const links = await Promise.all(
+        promises.map(request => request.json())
+      )
+      // Map through each item, and add a breed prop, swap the - for spaces
+      links.map(i => i.breed = i.message.split('/')[4].replace('-', ' '))
+      console.log(links)
+      getDogLinks(links)
+    }
+    getMultiple()
+  }, [])
+
   return (
     <div className="App">
       <h1>Hello</h1>
-      <button onClick={() => fetchDogImg()}>Fetch that data</button>
-      <button onClick={() => getMultiple()}>log the state</button>
-
-      
         {dogImg.status === 'success' ? 
           <div>
             <img src={dogImg.message} alt={dogImg.message}></img>
