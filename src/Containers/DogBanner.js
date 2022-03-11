@@ -17,7 +17,7 @@ export default function DogBanner() {
       {dogImg.status === 'success' ? 
           <div>
             <img src={dogImg.message} alt={dogImg.message}></img>
-            <h2>Cute Doggo</h2>
+            <h2>Cute Dog links</h2>
           </div>
           : <h2>Loading....</h2>
         }
