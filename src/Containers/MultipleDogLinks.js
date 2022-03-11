@@ -1,7 +1,14 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
+const CardContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
 
+  @media only screen and (max-width: 500px){
+    justify-content: center;
+  }
+`
 const Card = styled.div`
   height: 200px;
   width: 200px;
@@ -21,19 +28,8 @@ const Card = styled.div`
     }
   }
 `
-const Container = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-
-  @media only screen and (max-width: 500px){
-    justify-content: center;
-  }
-`
-
-export default function MultipleDogLinks () {
+function MultipleDogLinks () {
   const [dogLinks, getDogLinks] = useState([])
-
-  
 
   useEffect(() => {
     async function getMultiple () {
@@ -55,16 +51,18 @@ export default function MultipleDogLinks () {
   return (
     <div>
       {dogLinks.length ? (
-        <Container>
+        <CardContainer>
           {dogLinks.map(i => (
             <Card key={i.breed}>
               <a href={i.message}>{i.breed}</a>
             </Card>
           ))}
-          </Container>
+          </CardContainer>
       ) : (
         ''
       )}
     </div>
   )
 }
+
+export default MultipleDogLinks

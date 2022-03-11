@@ -1,4 +1,13 @@
 import { useEffect, useState } from 'react'
+import styled from 'styled-components'
+
+const Container = styled.div`
+ 
+  padding: 40px;
+  img {
+    max-height: 400px;
+  }
+`
 
 export default function DogBanner() {
   const [dogImg, getDogImg] = useState({})
@@ -13,7 +22,7 @@ export default function DogBanner() {
   }, [])
 
   return(
-    <div>
+    <Container>
       {dogImg.status === 'success' ? 
           <div>
             <img src={dogImg.message} alt={dogImg.message}></img>
@@ -21,6 +30,6 @@ export default function DogBanner() {
           </div>
           : <h2>Loading....</h2>
         }
-    </div>
+    </Container>
   )
 }
